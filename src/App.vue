@@ -20,6 +20,7 @@ function addTodo() {
     .then(({ data }) => {
       console.log('addTodo POST request OK', data)
       todo.id = data.id
+      todo.userId = data.userId
       todos.value.unshift(todo)
       text.value = ''
     })

@@ -26,8 +26,15 @@ function addTodo() {
     .catch((error) => console.log(error))
 }
 
-function deleteTodo(todo) {
-  todos.value = todos.value.filter((x) => x !== todo)
+function deleteTodo(todoId) {
+  todos.value = todos.value.filter((x) => x.id !== todoId)
+
+  api
+    .deleteTodo(todoId)
+    .then((response) => {
+      console.log('deleteTodo request OK', response)
+    })
+    .catch((error) => console.log(error))
 }
 
 watch(
@@ -86,7 +93,7 @@ onMounted(() => {
               <input type="text" v-model="todo.todo" />
             </div>
             <div class="actions">
-              <button class="delete" @click="deleteTodo(todo)">Delete</button>
+              <button class="delete" @click="deleteTodo(todo.id)">Delete</button>
             </div>
           </div>
         </div>

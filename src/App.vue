@@ -44,7 +44,7 @@ onMounted(() => {
       <section class="create-todo">
         <form @submit.prevent="addTodo">
           <h3>What is your main focus for today?</h3>
-          <input type="text" placeholder="e.g. Pet your cat" v-model="text" />
+          <input type="text" placeholder="e.g. Pet my cat" v-model="text" />
           <input type="submit" value="Add todo" />
         </form>
       </section>

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
+import api from './api/api'
 
 const todos = ref([])
 const text = ref('')
@@ -31,7 +32,18 @@ watch(
 )
 
 onMounted(() => {
-  todos.value = JSON.parse(localStorage.getItem('todos')) || []
+  const todosStored = localStorage.getItem('todos')
+  if (todosStored === null) {
+    api
+      .listTodos()
+      .then(({ data }) => {
+        console.log('listTodos GET request OK', data)
+        todos.value = data.todos
+      })
+      .catch((error) => console.log(error))
+  } else {
+    todos.value = JSON.parse(todosStored) || []
+  }
 })
 </script>
 

@@ -15,8 +15,15 @@ function addTodo() {
     completed: false
   }
 
-  todos.value.unshift(todo)
-  text.value = ''
+  api
+    .addTodo(todo)
+    .then(({ data }) => {
+      console.log('addTodo POST request OK', data)
+      todo.id = data.id
+      todos.value.unshift(todo)
+      text.value = ''
+    })
+    .catch((error) => console.log(error))
 }
 
 function deleteTodo(todo) {
@@ -67,7 +74,11 @@ onMounted(() => {
     <div class="todo-section">
       <section class="todo-list">
         <div class="list">
-          <div v-for="todo in todos" :class="`todo-item ${todo.completed && 'done'}`">
+          <div
+            v-for="todo in todos"
+            :key="todo.id"
+            :class="`todo-item ${todo.completed && 'done'}`"
+          >
             <label>
               <input type="checkbox" v-model="todo.completed" />
             </label>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 
 const todos = ref([])
 const text = ref('')
@@ -29,6 +29,10 @@ watch(
   },
   { deep: true }
 )
+
+onMounted(() => {
+  todos.value = JSON.parse(localStorage.getItem('todos')) || []
+})
 </script>
 
 <template>

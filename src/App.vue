@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 const todos = ref([])
 const text = ref('')
@@ -17,6 +17,14 @@ function addTodo() {
   todos.value.unshift(todo)
   text.value = ''
 }
+
+watch(
+  todos,
+  (newTodo) => {
+    localStorage.setItem('todos', JSON.stringify(newTodo))
+  },
+  { deep: true }
+)
 </script>
 
 <template>

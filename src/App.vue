@@ -43,5 +43,20 @@ watch(
     </div>
   </header>
 
-  <main class="app"></main>
+  <main class="app" v-show="todos.length > 0">
+    <div class="todo-section">
+      <section class="todo-list">
+        <div class="list">
+          <div v-for="todo in todos" :class="`todo-item ${todo.completed && 'done'}`">
+            <label>
+              <input type="checkbox" v-model="todo.completed" />
+            </label>
+            <div class="todo-content">
+              <input type="text" v-model="todo.todo" />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
 </template>

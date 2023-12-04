@@ -38,6 +38,15 @@ function deleteTodo(todoId) {
     .catch((error) => console.log(error))
 }
 
+function updateTodo(todo) {
+  api
+    .updateTodo(todo.id, { todo: todo.todo, completed: todo.completed })
+    .then(({ data }) => {
+      console.log('updateTodo request OK', data)
+    })
+    .catch((error) => console.log(error))
+}
+
 watch(
   todos,
   (newTodo) => {
@@ -85,10 +94,10 @@ onMounted(() => {
           <div
             v-for="todo in todos"
             :key="todo.id"
-            :class="`todo-item ${todo.completed && 'done'}`"
+            :class="`todo-item ${todo.completed ? 'done' : ''}`"
           >
             <label>
-              <input type="checkbox" v-model="todo.completed" />
+              <input type="checkbox" v-model="todo.completed" @change="updateTodo(todo)" />
             </label>
             <div class="todo-content">
               <input type="text" v-model="todo.todo" />

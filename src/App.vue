@@ -1,6 +1,9 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
+import { useToast } from 'vue-toastification'
 import api from './api/api'
+
+const toast = useToast()
 
 const todos = ref([])
 const text = ref('')
@@ -18,13 +21,15 @@ function addTodo() {
   api
     .addTodo(todo)
     .then(({ data }) => {
-      console.log('addTodo POST request OK', data)
       todo.id = data.id
       todo.userId = data.userId
       todos.value.unshift(todo)
       text.value = ''
     })
-    .catch((error) => console.log(error))
+    .catch((error) => {
+      console.error(error)
+      toast.error('Oops, we could not add this task in our system.')
+    })
 }
 
 function deleteTodo(todoId) {
@@ -35,16 +40,20 @@ function deleteTodo(todoId) {
     .then((response) => {
       console.log('deleteTodo request OK', response)
     })
-    .catch((error) => console.log(error))
+    .catch((error) => {
+      console.error(error)
+      toast.error('Oops, we could not delete this task in our system.')
+    })
 }
 
 function updateTodo(todo) {
   api
     .updateTodo(todo.id, { todo: todo.todo, completed: todo.completed })
-    .then(({ data }) => {
-      console.log('updateTodo request OK', data)
+    .then(() => toast.success('Good job!'))
+    .catch((error) => {
+      console.error(error)
+      toast.error('Oops, we could not update this task.')
     })
-    .catch((error) => console.log(error))
 }
 
 watch(
@@ -61,10 +70,14 @@ onMounted(() => {
     api
       .listTodos()
       .then(({ data }) => {
-        console.log('listTodos GET request OK', data)
         todos.value = data.todos
       })
-      .catch((error) => console.log(error))
+      .catch((error) => {
+        console.error(error)
+        toast.error(
+          `We're sorry, we're not able to retrieve your todos at the moment, please try again later.`
+        )
+      })
   } else {
     todos.value = JSON.parse(todosStored) || []
   }

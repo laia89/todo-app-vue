@@ -18,6 +18,10 @@ function addTodo() {
   text.value = ''
 }
 
+function deleteTodo(todo) {
+  todos.value = todos.value.filter((x) => x !== todo)
+}
+
 watch(
   todos,
   (newTodo) => {
@@ -53,6 +57,9 @@ watch(
             </label>
             <div class="todo-content">
               <input type="text" v-model="todo.todo" />
+            </div>
+            <div class="actions">
+              <button class="delete" @click="deleteTodo(todo)">Delete</button>
             </div>
           </div>
         </div>

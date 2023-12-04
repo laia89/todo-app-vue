@@ -33,12 +33,10 @@ function addTodo() {
 }
 
 function deleteTodo(todoId) {
-  todos.value = todos.value.filter((x) => x.id !== todoId)
-
   api
     .deleteTodo(todoId)
-    .then((response) => {
-      console.log('deleteTodo request OK', response)
+    .then(({ data }) => {
+      todos.value = todos.value.filter((x) => x.id !== data.id)
     })
     .catch((error) => {
       console.error(error)
@@ -52,7 +50,7 @@ function updateTodo(todo) {
     .then(() => toast.success('Good job!'))
     .catch((error) => {
       console.error(error)
-      toast.error('Oops, we could not update this task.')
+      toast.error('Oops, we could not update this task in our system.')
     })
 }
 

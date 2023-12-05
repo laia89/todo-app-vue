@@ -1,6 +1,6 @@
 # todo-app-vue
 
-This template should help get you started developing with Vue 3 in Vite.
+Fully functional CRUD (Create, Read, Update, Delete) Todo application using Vue.js 3. Using the Todo API provided by [DummyJSON](https://dummyjson.com/docs/todos) as its backend.
 
 ## Recommended IDE Setup
 

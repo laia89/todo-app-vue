@@ -40,14 +40,14 @@ function deleteTodo(todoId) {
     })
     .catch((error) => {
       console.error(error)
-      toast.error('Oops, we could not delete this task in our system.')
+      toast.error('Oops, we could not delete this task from our system.')
     })
 }
 
 function updateTodo(todo) {
   api
     .updateTodo(todo.id, { todo: todo.todo, completed: todo.completed })
-    .then(() => toast.success('Good job!'))
+    .then(() => todo.completed && toast.success('Good job!'))
     .catch((error) => {
       console.error(error)
       toast.error('Oops, we could not update this task in our system.')
@@ -64,6 +64,7 @@ watch(
 
 onMounted(() => {
   const todosStored = localStorage.getItem('todos')
+
   if (todosStored === null) {
     api
       .listTodos()
@@ -85,20 +86,20 @@ onMounted(() => {
 <template>
   <header class="app">
     <section class="greeting">
-      <h3 class="title">ToDo Application</h3>
+      <h1 class="title">ToDo Application</h1>
     </section>
     <div class="input-section">
       <section class="create-todo">
-        <form @submit.prevent="addTodo">
+        <form @submit.prevent="addTodo" data-test="form">
           <h3>What is your main focus for today?</h3>
-          <input type="text" placeholder="e.g. Pet my cat" v-model="text" />
+          <input data-test="new-todo" type="text" placeholder="e.g. Pet my cat" v-model="text" />
           <input type="submit" value="Add todo" />
         </form>
       </section>
     </div>
   </header>
 
-  <main class="app" v-show="todos.length > 0">
+  <main class="app" v-show="todos?.length > 0">
     <div class="todo-section">
       <section class="todo-list">
         <div class="list">
@@ -106,12 +107,13 @@ onMounted(() => {
             v-for="todo in todos"
             :key="todo.id"
             :class="`todo-item ${todo.completed ? 'done' : ''}`"
+            data-test="todo"
           >
             <label>
               <input type="checkbox" v-model="todo.completed" @change="updateTodo(todo)" />
             </label>
             <div class="todo-content">
-              <input type="text" v-model="todo.todo" />
+              {{ todo.todo }}
             </div>
             <div class="actions">
               <button class="delete" @click="deleteTodo(todo.id)">Delete</button>

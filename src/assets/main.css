@@ -13,6 +13,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background: var(--color-background);
 }
 
 section {
@@ -151,11 +152,9 @@ input:checked ~ .bubble::after {
 
 .todo-item .todo-content {
   flex: 1 1 0%;
-}
-
-.todo-item .todo-content input {
   color: white;
   font-size: 1.125rem;
+  text-align: left;
 }
 
 .todo-item .actions {
@@ -170,6 +169,7 @@ input:checked ~ .bubble::after {
   color: #fff;
   cursor: pointer;
   transition: 0.2s ease-in-out;
+  margin-left: 1rem;
 }
 
 .todo-item .actions button:hover {
@@ -185,7 +185,7 @@ input:checked ~ .bubble::after {
   background-color: var(--danger);
 }
 
-.todo-item.done .todo-content input {
+.todo-item.done .todo-content {
   text-decoration: line-through;
   color: rgba(165, 165, 165, 0.752);
 }
